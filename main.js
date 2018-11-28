@@ -53,7 +53,8 @@ function generateColonyColor() {
     return {r, g, b};
 }
 
-// var socket = new WebSocket("ws://127.0.0.1:8080/endpoint");
+let socket = new WebSocket("ws://127.0.0.1:2346/");
+
 //
 // socket.onopen = function() {
 //     alert("Соединение установлено.");
