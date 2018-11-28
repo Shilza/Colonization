@@ -3,8 +3,26 @@
  <head>
   <meta charset="utf-8" />
   <title>Colonization</title>
+
  </head>
  <body>
+
+<canvas id="myCanvas" height="768px" width="1366px" style="border:1px solid #000000;">
+</canvas>
+
+<script>
+
+
+document.addEventListener("click", function(event){
+  var c = document.getElementById("myCanvas");
+var ctx = c.getContext("2d");
+ctx.beginPath();
+ctx.arc(event.pageX,event.pageY,60,0,2*Math.PI);
+ctx.stroke();
+  console.log(event.pageX + ' ' + event.pageY);
+})
+
+</script> 
 
 <script type="text/javascript">
   var socket = new WebSocket("ws://127.0.0.1:8080/endpoint");
@@ -30,7 +48,8 @@ socket.onerror = function(error) {
   alert("Ошибка " + error.message);
 };
 
-</script>>
+</script>
+
 
  </body>
 </html>
