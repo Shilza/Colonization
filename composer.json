@@ -1,0 +1,13 @@
+{
+    "name": "toleckk/colonization",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Toleckk",
+            "email": "anatolich1995@gmail.com"
+        }
+    ],
+    "require": {
+        "workerman/workerman": "^3.5"
+    }
+}
