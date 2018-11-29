@@ -11,5 +11,12 @@
     "workerman/workerman": "^3.5",
     "ext-json": "*",
     "illuminate/database": "^5.7"
+  },
+  "autoload": {
+    "psr-4": {
+      "Colonization\\Model\\": "src/main/php/Model/",
+      "Colonization\\Service\\": "src/main/php/Service/",
+      "Colonization\\Constants\\": "src/main/php/Constants/"
+    }
   }
 }
