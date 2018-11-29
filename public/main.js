@@ -11,11 +11,11 @@ function createNewColony(pageX, pageY, name) {
     drawEmptyColony(pageX, pageY, color);
 }
 
-function drawEmptyColony(pageX, pageY, {r, g, b}) {
+function drawEmptyColony(pageX, pageY, color) {
     let context = document.getElementById("mainCanvas").getContext("2d");
     context.beginPath();
 
-    context.strokeStyle = 'rgb(' + r + ',' + g + ',' + b + ')';
+    context.strokeStyle = color;
     context.lineWidth = 3;
     context.arc(pageX, pageY, circleSize, 0, 2 * Math.PI);
 
@@ -27,7 +27,16 @@ function generateColonyColor() {
     const g = Math.floor(Math.random() * 256);
     const b = Math.floor(Math.random() * 256);
 
-    return {r, g, b};
+    return '#' + rgbToHex(r) + rgbToHex(g) + rgbToHex(b);
+}
+
+function rgbToHex(rgb) {
+    let hex = Number(rgb).toString(16);
+
+    if (hex.length < 2)
+        hex = "0" + hex;
+
+    return hex;
 }
 
 function massAppendChild(mainElement, elements) {
