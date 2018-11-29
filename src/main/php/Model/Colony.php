@@ -32,5 +32,5 @@ class Colony extends Model {
     protected $table = 'colonies';
 
     protected $fillable
-        = ['name', 'location', 'type', 'water_availability', 'wood_availability', 'metal_availability', 'fertility'];
+        = ['name', 'location', 'type', 'water_availability', 'wood_availability', 'metal_availability', 'fertility', 'color'];
 }
