@@ -7,7 +7,7 @@ function createNewColony(pageX, pageY, name) {
     const colony = {location: {x: pageX, y: pageY}, name: name, color: color};
     colonies.push(colony);
 
-    socket.send({type: CREATE_COLONY, data: colony});
+    socket.send(JSON.stringify({type: CREATE_COLONY, data: colony}));
     drawEmptyColony(pageX, pageY, color);
 }
 
