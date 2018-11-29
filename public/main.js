@@ -3,15 +3,18 @@ const minimalColonySpace = 40;
 let colonies = [];
 
 function createNewColony(pageX, pageY, name) {
-    colonies.push({location: {x: pageX, y: pageY}, name: name});
-    drawEmptyColony(pageX, pageY);
+    const color = generateColonyColor();
+    const colony = {location: {x: pageX, y: pageY}, name: name, color: color};
+    colonies.push(colony);
+
+    socket.send({type: CREATE_COLONY, data: colony});
+    drawEmptyColony(pageX, pageY, color);
 }
 
-function drawEmptyColony(pageX, pageY) {
+function drawEmptyColony(pageX, pageY, {r, g, b}) {
     let context = document.getElementById("mainCanvas").getContext("2d");
     context.beginPath();
 
-    const {r, g, b} = generateColonyColor();
     context.strokeStyle = 'rgb(' + r + ',' + g + ',' + b + ')';
     context.lineWidth = 3;
     context.arc(pageX, pageY, circleSize, 0, 2 * Math.PI);

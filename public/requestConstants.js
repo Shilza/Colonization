@@ -1,0 +1,2 @@
+
+const CREATE_COLONY = 1;

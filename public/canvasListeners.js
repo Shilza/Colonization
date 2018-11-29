@@ -58,9 +58,8 @@ function inRange(clickX, clickY, {x, y}, size) {
 }
 
 function canCreateColony(pageX, pageY) {
-    for (let i = 0; i < colonies.length; i++) {
+    for (let i = 0; i < colonies.length; i++)
         if (inRange(pageX, pageY, colonies[i].location, circleSize * 2 + minimalColonySpace))
             return false;
-    }
     return true;
 }
