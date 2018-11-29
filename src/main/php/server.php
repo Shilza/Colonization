@@ -5,6 +5,7 @@ require_once 'config.php';
 use Colonization\Constants\Types;
 use Colonization\Model\Colony;
 use Colonization\Service\ColonyService;
+use Colonization\Service\EntityService;
 use Workerman\Connection\TcpConnection;
 use Workerman\Worker;
 
@@ -20,10 +21,11 @@ $server->onConnect = function (TcpConnection $connection) {
 $server->onMessage = function (TcpConnection $connection, string $data) {
     echo $data;
     $arr = json_decode($data, true);
-    var_dump($arr);
     switch($arr['type']){
         case Types::CREATE_COLONY:
-            ColonyService::createColony($arr['data']);
+            $id = ColonyService::createColony($arr['data'])->id;
+            for($i = 0; $i < 10; $i++)
+                EntityService::createEntity($id);
             break;
     }
 };
