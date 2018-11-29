@@ -18,7 +18,9 @@ $server->onConnect = function (TcpConnection $connection) {
 };
 
 $server->onMessage = function (TcpConnection $connection, string $data) {
-    $arr = json_decode($data, false);
+    echo $data;
+    $arr = json_decode($data, true);
+    var_dump($arr);
     switch($arr['type']){
         case Types::CREATE_COLONY:
             ColonyService::createColony($arr['data']);

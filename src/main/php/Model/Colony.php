@@ -26,6 +26,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $tools
  */
 class Colony extends Model {
+    const UPDATED_AT = null;
+    const CREATED_AT = null;
+
     protected $table = 'colonies';
 
     protected $fillable

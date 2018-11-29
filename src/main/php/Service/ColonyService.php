@@ -7,10 +7,11 @@ use Colonization\Model\Colony;
 
 class ColonyService {
     public static function createColony(array $data) : void{
-        $withIndexes = array_merge($data, ['water_availability' => static::generateIndex(),
+        $indexes = ['water_availability' => static::generateIndex(),
             'wood_availability' => static::generateIndex(), 'metal_available' => static::generateIndex(),
-            'fertility' => static::generateIndex()]);
-        Colony::create(array_merge($withIndexes, ['type' => static::generateType($withIndexes)]));
+            'fertility' => static::generateIndex()];
+        Colony::create(array_merge($indexes, ['name' => $data['name'], 'location' => json_encode($data['location']),
+            'type' => static::generateType($indexes)]));
     }
 
     private static function generateIndex(){
