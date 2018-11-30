@@ -2,6 +2,7 @@
 
 namespace Colonization\Model;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -24,6 +25,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $food
  * @property int $weapon
  * @property int $tools
+ * @property Collection $entities
  */
 class Colony extends Model {
     const UPDATED_AT = null;
@@ -33,4 +35,8 @@ class Colony extends Model {
 
     protected $fillable
         = ['name', 'location', 'type', 'water_availability', 'wood_availability', 'metal_availability', 'fertility', 'color'];
+
+    public function entities(){
+        return $this->hasMany('Colonization\Model\Entity');
+    }
 }

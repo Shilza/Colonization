@@ -23,5 +23,5 @@ class Entity extends Model {
 
     protected $table = 'entities';
 
-    protected $fillable = ['leadership', 'strength', 'intelligence', 'militancy', 'diplomacy', 'enterprise', 'name', 'colony_id'];
+    protected $fillable = ['leadership', 'strength', 'intelligence', 'militancy', 'diplomacy', 'enterprise', 'name', 'colony_id', 'addiction'];
 }

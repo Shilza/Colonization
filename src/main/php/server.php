@@ -4,8 +4,7 @@ require_once 'config.php';
 
 use Colonization\Constants\Types;
 use Colonization\Model\Colony;
-use Colonization\Service\ColonyService;
-use Colonization\Service\EntityService;
+use Colonization\Service\ColonyCreatingService;
 use Workerman\Connection\TcpConnection;
 use Workerman\Worker;
 
@@ -21,11 +20,9 @@ $server->onConnect = function (TcpConnection $connection) {
 $server->onMessage = function (TcpConnection $connection, string $data) {
     echo $data;
     $arr = json_decode($data, true);
-    switch($arr['type']){
+    switch ($arr['type']) {
         case Types::CREATE_COLONY:
-            $id = ColonyService::createColony($arr['data'])->id;
-            for($i = 0; $i < 10; $i++)
-                EntityService::createEntity($id);
+            ColonyCreatingService::createColony($arr['data']);
             break;
     }
 };
@@ -33,3 +30,5 @@ $server->onMessage = function (TcpConnection $connection, string $data) {
 $server->onClose = function (TcpConnection $connection) {};
 
 Worker::runAll();
+
+//echo 100 / 15 * 4;
