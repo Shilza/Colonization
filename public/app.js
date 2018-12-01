@@ -188,11 +188,14 @@ function generateColony(pageX, pageY, name) {
 }
 
 function createColony(data) {
+    data.location = parseLocation(data);
     colonies.push(data);
 
-    const location = JSON.parse(data.location);
+    drawEmptyColony(data.location.x, data.location.y, data.color);
+}
 
-    drawEmptyColony(location.x, location.y, data.color);
+function parseLocation(data) {
+    return JSON.parse(data.location);
 }
 
 function drawEmptyColony(pageX, pageY, color) {

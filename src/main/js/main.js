@@ -17,8 +17,6 @@ function generateColony(pageX, pageY, name) {
 function createColony(data) {
     colonies.push(data);
 
-    const location = JSON.parse(data.location);
-
     drawEmptyColony(location.x, location.y, data.color);
 }
 
