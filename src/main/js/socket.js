@@ -14,10 +14,11 @@ socket.onclose = function(event) {
 };
 
 socket.onmessage = function(event) {
-    const {data} = event;
+    const data = JSON.parse(event.data);
 
     switch (data.type) {
         case ALL_COLONIES:
+            setColonies(data.data);
             break;
         case COLONY_CREATED:
             createColony(data.data);

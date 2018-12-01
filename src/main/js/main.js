@@ -2,6 +2,11 @@ const circleSize = 60;
 const minimalColonySpace = 40;
 let colonies = [];
 
+function setColonies(data) {
+    for(let i = 0; i < data.length; i++)
+        createColony(data[i]);
+}
+
 function generateColony(pageX, pageY, name) {
     const color = generateColonyColor();
     const colony = {location: {x: pageX, y: pageY}, name: name, color: color};
@@ -12,9 +17,9 @@ function generateColony(pageX, pageY, name) {
 function createColony(data) {
     colonies.push(data);
 
-    console.log(data);
+    const location = JSON.parse(data.location);
 
-    drawEmptyColony(data.location.x, data.location.y, data.color);
+    drawEmptyColony(location.x, location.y, data.color);
 }
 
 function drawEmptyColony(pageX, pageY, color) {
