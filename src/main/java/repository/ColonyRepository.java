@@ -31,11 +31,6 @@ public class ColonyRepository {
         session.close();
     }
 
-//    public Entity findEntitiesById(int id){
-//        return HibernateSessionFactoryUtil.getSessionFactory().openSession()
-//                .
-//    }
-
     public Colony findById(int id) {
         return HibernateSessionFactoryUtil.getSessionFactory().openSession().get(Colony.class, id);
     }

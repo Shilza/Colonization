@@ -1,15 +1,18 @@
 package model;
 
 
+import Constants.Type;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
+@SuppressWarnings("unused")
 @javax.persistence.Entity
-@Table(name="entities")
+@Table(name = "entities")
 public class Entity implements Serializable {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private String name;
@@ -22,17 +25,98 @@ public class Entity implements Serializable {
 
     private int diplomacy;
 
-    @Column(name="birth_date")
-    private int birthDate;
+    private int leadership;
+
+    private int age;
 
     private int enterprise;
+
+    private Type addiction;
+
+    private int vitality;
+
+    @Override
+    public String toString() {
+        return "Entity{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", strength=" + strength +
+                ", intelligence=" + intelligence +
+                ", militancy=" + militancy +
+                ", diplomacy=" + diplomacy +
+                ", leadership=" + leadership +
+                ", age=" + age +
+                ", enterprise=" + enterprise +
+                ", addiction=" + addiction +
+                ", vitality=" + vitality +
+                ", dead=" + dead +
+                ", colony=" + colony +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Entity entity = (Entity) o;
+        return id == entity.id &&
+                strength == entity.strength &&
+                intelligence == entity.intelligence &&
+                militancy == entity.militancy &&
+                diplomacy == entity.diplomacy &&
+                leadership == entity.leadership &&
+                age == entity.age &&
+                enterprise == entity.enterprise &&
+                vitality == entity.vitality &&
+                dead == entity.dead &&
+                Objects.equals(name, entity.name) &&
+                addiction == entity.addiction &&
+                Objects.equals(colony, entity.colony);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, strength, intelligence, militancy, diplomacy, leadership, age, enterprise, addiction, vitality, dead, colony);
+    }
+
+    private boolean dead;
+
+    public boolean isDead() {
+        return dead;
+    }
+
+    public Entity setDead(boolean dead) {
+        this.dead = dead;
+        return this;
+    }
+
+
+    public int getVitality() {
+        return vitality;
+    }
+
+    public Entity setVitality(int vitality) {
+        this.vitality = vitality >= 100 ? 100 : vitality;
+        return this;
+    }
+
+    public Colony getColony() {
+        return colony;
+    }
+
+    public Entity setColony(Colony colony) {
+        this.colony = colony;
+        return this;
+    }
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "colony_id")
     private Colony colony;
 
 
-    public Entity() {}
+    public Entity() {
+    }
 
     public int getId() {
         return id;
@@ -82,12 +166,12 @@ public class Entity implements Serializable {
         this.diplomacy = diplomacy;
     }
 
-    public int getBirthDate() {
-        return birthDate;
+    public int getAge() {
+        return age;
     }
 
-    public void setBirthDate(int birthDate) {
-        this.birthDate = birthDate;
+    public void setAge(int age) {
+        this.age = age;
     }
 
     public int getEnterprise() {
@@ -98,37 +182,31 @@ public class Entity implements Serializable {
         this.enterprise = enterprise;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Entity entity = (Entity) o;
-        return id == entity.id &&
-                strength == entity.strength &&
-                intelligence == entity.intelligence &&
-                militancy == entity.militancy &&
-                diplomacy == entity.diplomacy &&
-                birthDate == entity.birthDate &&
-                enterprise == entity.enterprise &&
-                Objects.equals(name, entity.name);
+
+    public int getLeadership() {
+        return leadership;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, strength, intelligence, militancy, diplomacy, birthDate, enterprise);
+    public Entity setLeadership(int leadership) {
+        this.leadership = leadership;
+        return this;
     }
 
-    @Override
-    public String toString() {
-        return "Entity{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", strength=" + strength +
-                ", intelligence=" + intelligence +
-                ", militancy=" + militancy +
-                ", diplomacy=" + diplomacy +
-                ", birthDate=" + birthDate +
-                ", enterprise=" + enterprise +
-                '}';
+    public Type getAddiction() {
+        return addiction;
+    }
+
+    public Entity setAddiction(Type addiction) {
+        this.addiction = addiction;
+        return this;
+    }
+
+    public Entity setAddiction(int addiction) {
+        this.addiction = Type.getType(addiction);
+        return this;
+    }
+
+    public void dead() {
+        setDead(true);
     }
 }

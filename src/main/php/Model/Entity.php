@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $intelligence
  * @property int $militancy
  * @property int $diplomacy
- * @property int $birth_date
+ * @property int $age
  * @property int $enterprise
  */
 class Entity extends Model
@@ -25,7 +25,6 @@ class Entity extends Model
     protected $table = 'entities';
 
     protected $fillable = [
-        'birth_date',
         'leadership',
         'strength',
         'intelligence',

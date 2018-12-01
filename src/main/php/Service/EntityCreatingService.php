@@ -23,8 +23,7 @@ class EntityCreatingService extends Service {
         return Entity::create(array_merge($indexes, [
             'name' => static::generateName(),
             'colony_id' => $colonyId,
-            'addiction' => self::generateAddiction($indexes),
-            'birth_date' => 0
+            'addiction' => self::generateAddiction($indexes)
         ]));
     }
 

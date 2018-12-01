@@ -13,6 +13,7 @@ class ColonyCreatingService extends Service {
         for ($i = 0; $i < 10; $i++)
             EntityCreatingService::createEntity($colony->id);
 
+        $colony->lifespan = is_null($lifespan = Colony::avg('lifespan')) ? $lifespan : 50;
         $colony->type = ColonyCreatingService::generateType($colony);
         $colony->save();
 
