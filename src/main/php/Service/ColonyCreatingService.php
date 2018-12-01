@@ -23,7 +23,7 @@ class ColonyCreatingService extends Service {
         $indexes = [
             'water_availability' => static::generateIndex(),
             'wood_availability' => static::generateIndex(),
-            'metal_available' => static::generateIndex(),
+            'metal_availability' => static::generateIndex(),
             'fertility' => static::generateIndex()
         ];
 
