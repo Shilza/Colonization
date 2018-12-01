@@ -17,11 +17,23 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $birth_date
  * @property int $enterprise
  */
-class Entity extends Model {
+class Entity extends Model
+{
     const UPDATED_AT = null;
     const CREATED_AT = null;
 
     protected $table = 'entities';
 
-    protected $fillable = ['leadership', 'strength', 'intelligence', 'militancy', 'diplomacy', 'enterprise', 'name', 'colony_id', 'addiction'];
+    protected $fillable = [
+        'birth_date',
+        'leadership',
+        'strength',
+        'intelligence',
+        'militancy',
+        'diplomacy',
+        'enterprise',
+        'name',
+        'colony_id',
+        'addiction'
+    ];
 }
