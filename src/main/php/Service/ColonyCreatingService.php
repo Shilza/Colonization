@@ -8,13 +8,15 @@ use Colonization\Model\Colony;
 
 class ColonyCreatingService extends Service {
 
-    public static function createColony(array $data) {
+    public static function createColony(array $data): Colony {
         $colony = ColonyCreatingService::createColonyBasic($data);
         for ($i = 0; $i < 10; $i++)
             EntityCreatingService::createEntity($colony->id);
 
         $colony->type = ColonyCreatingService::generateType($colony);
         $colony->save();
+
+        return $colony;
     }
 
     private static function createColonyBasic(array $data): Colony {

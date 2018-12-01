@@ -22,7 +22,10 @@ $server->onMessage = function (TcpConnection $connection, string $data) {
     $arr = json_decode($data, true);
     switch ($arr['type']) {
         case Types::CREATE_COLONY:
-            ColonyCreatingService::createColony($arr['data']);
+            $connection->send($colonyJson = json_encode([
+                "type" => Types::COLONY_CREATED,
+                "data" => ColonyCreatingService::createColony($arr['data'])
+            ]));
             break;
     }
 };
@@ -30,5 +33,3 @@ $server->onMessage = function (TcpConnection $connection, string $data) {
 $server->onClose = function (TcpConnection $connection) {};
 
 Worker::runAll();
-
-//echo 100 / 15 * 4;
