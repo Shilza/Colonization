@@ -14,7 +14,16 @@ socket.onclose = function(event) {
 };
 
 socket.onmessage = function(event) {
-    console.log("Получены данные " + event.data);
+    const {data} = event;
+    console.log("Получены данные " + data);
+
+    switch (data.type) {
+        case ALL_COLONIES:
+            break;
+        case COLONY_CREATED:
+            createColony(data.data);
+            break;
+    }
 };
 
 socket.onerror = function(error) {

@@ -18,7 +18,7 @@ function createCreateMenu(pageX, pageY) {
         document.getElementById("createMenu").remove();
 
         if (name)
-            createNewColony(pageX, pageY, name);
+            generateColony(pageX, pageY, name);
     });
 
     if (document.getElementById('colonyFormInfo'))
