@@ -15,9 +15,12 @@ function generateColony(pageX, pageY, name) {
 }
 
 function createColony(data) {
-    colonies.push(data);
-
-    drawEmptyColony(location.x, location.y, data.color);
+    if(data) {
+        colonies.push(data);
+        drawEmptyColony(location.x, location.y, data.color);
+    }
+    else
+        alert('Something went wrong');
 }
 
 function drawEmptyColony(pageX, pageY, color) {
