@@ -10,7 +10,7 @@ import java.util.Random;
 
 public class ColonyWorker {
 
-    private static Random random = new Random();
+    private static Random random = new Random(System.currentTimeMillis());
 
     public static void actions(@NotNull Colony colony) {
         var entities = colony.getEntities();
@@ -40,11 +40,11 @@ public class ColonyWorker {
     private static void foodDistribution(@NotNull Colony colony) {
         var entities = colony.getEntities();
 
-        var food = calculateNeededFood(entities);
+        var neededFood = calculateNeededFood(entities);
 
         var colonyFood = colony.getFood();
 
-        if (colonyFood < food) {
+        if (colonyFood < neededFood) {
             entities.sort(Comparator.comparingInt(entity -> entity.getAddiction().getFoodPerDay()));
             int foodForOnePerson = colonyFood / entities.size();
 
@@ -57,10 +57,13 @@ public class ColonyWorker {
                     entity.setVitality(entity.getVitality() + eaten + livingLevelCoefficient(colony));
                 } else {
                     colonyFood -= foodForOnePerson;
-                    entity.setVitality(foodForOnePerson);
+                    entity.setVitality(entity.getVitality() + foodForOnePerson);
                 }
             }
-        }
+        } else
+            entities.forEach(entity -> entity.setVitality(entity.getVitality() + entity.getAddiction().getFoodPerDay()));
+
+        colony.setFood(colony.getFood() - neededFood);
     }
 
     private static int calculateNeededFood(List<Entity> entities) {

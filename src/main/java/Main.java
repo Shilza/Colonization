@@ -1,11 +1,7 @@
 import repository.ColonyRepository;
 import repository.EntityRepository;
 import worker.ColonyWorker;
-
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Optional;
-import java.util.function.BinaryOperator;
+import worker.PriceCalculator;
 
 public class Main {
     private static EntityRepository entityRepository = new EntityRepository();
@@ -18,6 +14,8 @@ public class Main {
             colonies.forEach(ColonyWorker::actions);
 
             colonies.forEach(colonyRepository::update);
+
+            PriceCalculator.calculate(colonies);
         }
     }
 

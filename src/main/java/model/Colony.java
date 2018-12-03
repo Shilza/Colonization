@@ -55,67 +55,14 @@ public class Colony implements Serializable {
 
     private String location;
 
-    @Override
-    public String toString() {
-        return "Colony{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", type=" + type +
-                ", waterAvailability=" + waterAvailability +
-                ", woodAvailability=" + woodAvailability +
-                ", metalAvailability=" + metalAvailability +
-                ", fertility=" + fertility +
-                ", war=" + war +
-                ", livingLevel=" + livingLevel +
-                ", money=" + money +
-                ", lifespan=" + lifespan +
-                ", populationCount=" + populationCount +
-                ", age=" + age +
-                ", experience=" + experience +
-                ", food=" + food +
-                ", weapon=" + weapon +
-                ", tools=" + tools +
-                ", location='" + location + '\'' +
-                ", color='" + color + '\'' +
-                ", dead=" + dead +
-                ", entities=" + entities +
-                '}';
-    }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Colony colony = (Colony) o;
-        return id == colony.id &&
-                waterAvailability == colony.waterAvailability &&
-                woodAvailability == colony.woodAvailability &&
-                metalAvailability == colony.metalAvailability &&
-                fertility == colony.fertility &&
-                war == colony.war &&
-                livingLevel == colony.livingLevel &&
-                money == colony.money &&
-                lifespan == colony.lifespan &&
-                populationCount == colony.populationCount &&
-                age == colony.age &&
-                experience == colony.experience &&
-                food == colony.food &&
-                weapon == colony.weapon &&
-                tools == colony.tools &&
-                dead == colony.dead &&
-                Objects.equals(name, colony.name) &&
-                type == colony.type &&
-                Objects.equals(location, colony.location) &&
-                Objects.equals(color, colony.color) &&
-                Objects.equals(entities, colony.entities);
-    }
+    private boolean dead;
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, type, waterAvailability, woodAvailability, metalAvailability, fertility, war, livingLevel, money, lifespan, populationCount, age, experience, food, weapon, tools, location, color, dead, entities);
-    }
+    @OneToMany(mappedBy = "colony", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<model.Entity> entities = new LinkedList<>();
 
     private String color;
+
 
     public boolean isDead() {
         return dead;
@@ -125,12 +72,6 @@ public class Colony implements Serializable {
         this.dead = dead;
         return this;
     }
-
-    private boolean dead;
-
-    @OneToMany(mappedBy = "colony", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<model.Entity> entities = new LinkedList<>();
-
 
     public Colony() {}
 
@@ -297,7 +238,7 @@ public class Colony implements Serializable {
     }
 
     public Colony setFood(int food) {
-        this.food = food;
+        this.food = food > 0 ? food : 0;
         return this;
     }
 
@@ -315,7 +256,7 @@ public class Colony implements Serializable {
     }
 
     public Colony setTools(int tools) {
-        this.tools = tools;
+        this.tools = tools > 0 ? tools : 0;
         return this;
     }
 
@@ -323,4 +264,65 @@ public class Colony implements Serializable {
     public void dead() {
         this.setDead(true);
     }
+
+    @Override
+    public String toString() {
+        return "Colony{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", type=" + type +
+                ", waterAvailability=" + waterAvailability +
+                ", woodAvailability=" + woodAvailability +
+                ", metalAvailability=" + metalAvailability +
+                ", fertility=" + fertility +
+                ", war=" + war +
+                ", livingLevel=" + livingLevel +
+                ", money=" + money +
+                ", lifespan=" + lifespan +
+                ", populationCount=" + populationCount +
+                ", age=" + age +
+                ", experience=" + experience +
+                ", food=" + food +
+                ", weapon=" + weapon +
+                ", tools=" + tools +
+                ", location='" + location + '\'' +
+                ", color='" + color + '\'' +
+                ", dead=" + dead +
+                ", entities=" + entities +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Colony colony = (Colony) o;
+        return id == colony.id &&
+                waterAvailability == colony.waterAvailability &&
+                woodAvailability == colony.woodAvailability &&
+                metalAvailability == colony.metalAvailability &&
+                fertility == colony.fertility &&
+                war == colony.war &&
+                livingLevel == colony.livingLevel &&
+                money == colony.money &&
+                lifespan == colony.lifespan &&
+                populationCount == colony.populationCount &&
+                age == colony.age &&
+                experience == colony.experience &&
+                food == colony.food &&
+                weapon == colony.weapon &&
+                tools == colony.tools &&
+                dead == colony.dead &&
+                Objects.equals(name, colony.name) &&
+                type == colony.type &&
+                Objects.equals(location, colony.location) &&
+                Objects.equals(color, colony.color) &&
+                Objects.equals(entities, colony.entities);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, type, waterAvailability, woodAvailability, metalAvailability, fertility, war, livingLevel, money, lifespan, populationCount, age, experience, food, weapon, tools, location, color, dead, entities);
+    }
+
 }

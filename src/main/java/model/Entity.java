@@ -35,84 +35,14 @@ public class Entity implements Serializable {
 
     private int vitality;
 
-    @Override
-    public String toString() {
-        return "Entity{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", strength=" + strength +
-                ", intelligence=" + intelligence +
-                ", militancy=" + militancy +
-                ", diplomacy=" + diplomacy +
-                ", leadership=" + leadership +
-                ", age=" + age +
-                ", enterprise=" + enterprise +
-                ", addiction=" + addiction +
-                ", vitality=" + vitality +
-                ", dead=" + dead +
-                ", colony=" + colony +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Entity entity = (Entity) o;
-        return id == entity.id &&
-                strength == entity.strength &&
-                intelligence == entity.intelligence &&
-                militancy == entity.militancy &&
-                diplomacy == entity.diplomacy &&
-                leadership == entity.leadership &&
-                age == entity.age &&
-                enterprise == entity.enterprise &&
-                vitality == entity.vitality &&
-                dead == entity.dead &&
-                Objects.equals(name, entity.name) &&
-                addiction == entity.addiction &&
-                Objects.equals(colony, entity.colony);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, strength, intelligence, militancy, diplomacy, leadership, age, enterprise, addiction, vitality, dead, colony);
-    }
-
     private boolean dead;
-
-    public boolean isDead() {
-        return dead;
-    }
-
-    public Entity setDead(boolean dead) {
-        this.dead = dead;
-        return this;
-    }
-
-
-    public int getVitality() {
-        return vitality;
-    }
-
-    public Entity setVitality(int vitality) {
-        this.vitality = vitality >= 100 ? 100 : vitality;
-        return this;
-    }
-
-    public Colony getColony() {
-        return colony;
-    }
-
-    public Entity setColony(Colony colony) {
-        this.colony = colony;
-        return this;
-    }
-
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "colony_id")
     private Colony colony;
+
+    @OneToOne(mappedBy = "entity", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Skill skill;
 
 
     public Entity() {
@@ -182,6 +112,32 @@ public class Entity implements Serializable {
         this.enterprise = enterprise;
     }
 
+    public boolean isDead() {
+        return dead;
+    }
+
+    public Entity setDead(boolean dead) {
+        this.dead = dead;
+        return this;
+    }
+
+    public int getVitality() {
+        return vitality;
+    }
+
+    public Entity setVitality(int vitality) {
+        this.vitality = vitality >= 100 ? 100 : vitality;
+        return this;
+    }
+
+    public Colony getColony() {
+        return colony;
+    }
+
+    public Entity setColony(Colony colony) {
+        this.colony = colony;
+        return this;
+    }
 
     public int getLeadership() {
         return leadership;
@@ -208,5 +164,76 @@ public class Entity implements Serializable {
 
     public void dead() {
         setDead(true);
+    }
+
+
+    public Skill getSkill() {
+        return skill;
+    }
+
+    public Entity setSkill(Skill skill) {
+        this.skill = skill;
+        return this;
+    }
+
+    public Integer getSkillFromType(Type type) {
+        switch (type) {
+            case MILITARY:
+                return skill.getMilitary();
+            case TRADER:
+                return skill.getTrading();
+            case ARTISAN:
+                return skill.getCrafting();
+            case FARMER:
+                return skill.getFarming();
+            default:
+                return null;
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Entity entity = (Entity) o;
+        return id == entity.id &&
+                strength == entity.strength &&
+                intelligence == entity.intelligence &&
+                militancy == entity.militancy &&
+                diplomacy == entity.diplomacy &&
+                leadership == entity.leadership &&
+                age == entity.age &&
+                enterprise == entity.enterprise &&
+                vitality == entity.vitality &&
+                dead == entity.dead &&
+                Objects.equals(name, entity.name) &&
+                addiction == entity.addiction &&
+                Objects.equals(colony, entity.colony) &&
+                Objects.equals(skill, entity.skill);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, strength, intelligence, militancy, diplomacy, leadership, age, enterprise, addiction, vitality, dead, colony, skill);
+    }
+
+    @Override
+    public String toString() {
+        return "Entity{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", strength=" + strength +
+                ", intelligence=" + intelligence +
+                ", militancy=" + militancy +
+                ", diplomacy=" + diplomacy +
+                ", leadership=" + leadership +
+                ", age=" + age +
+                ", enterprise=" + enterprise +
+                ", addiction=" + addiction +
+                ", vitality=" + vitality +
+                ", dead=" + dead +
+                ", colony=" + colony +
+                ", skill=" + skill +
+                '}';
     }
 }
