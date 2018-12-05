@@ -1,5 +1,6 @@
 const circleSize = 60;
 const minimalColonySpace = 40;
+let prices = {};
 let colonies = [];
 
 function setColonies(data) {

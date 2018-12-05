@@ -4,6 +4,7 @@ require_once 'config.php';
 
 use Colonization\Constants\Types;
 use Colonization\Model\Colony;
+use Colonization\Model\Prices;
 use Colonization\Service\ColonyCreatingService;
 use Workerman\Connection\TcpConnection;
 use Workerman\Worker;
@@ -14,7 +15,11 @@ $server = new Worker("websocket://0.0.0.0:2346");
 $server->count = 1;
 
 $server->onConnect = function (TcpConnection $connection) {
-    $connection->send(json_encode(['type' => Types::ALL_COLONIES, 'data' => Colony::all()]));
+    $connection->send(json_encode([
+        'type' => Types::ALL_COLONIES,
+        'data' => Colony::where('dead', '0')->get(),
+        'prices' => Prices::first()
+    ]));
 };
 
 $server->onMessage = function (TcpConnection $connection, string $data) {

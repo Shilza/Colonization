@@ -11,6 +11,8 @@ socket.onclose = function(event) {
 socket.onmessage = function(event) {
     const data = JSON.parse(event.data);
 
+    prices = data.prices;
+
     switch (data.type) {
         case ALL_COLONIES:
             setColonies(data.data);

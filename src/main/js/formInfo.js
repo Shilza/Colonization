@@ -12,7 +12,8 @@ function createColonyFormInfo(colony) {
     formInfoStyle.flexDirection = "column";
     formInfoStyle.alignItems = "center";
     formInfoStyle.justifyContent = "space-between";
-    formInfoStyle.border = "1px solid black";
+    formInfoStyle.border = "1px solid " + colony.color;
+    formInfoStyle.background = "white";
 
     let colonyParametersStyle = colonyParameters.style;
     colonyParametersStyle.display = "flex";
@@ -70,7 +71,7 @@ function setupNameOfResources(container) {
     livingLevel.textContent = "Living level";
 
     let lifespan = document.createElement("span");
-    lifespan.textContent = "Living level";
+    lifespan.textContent = "Lifespan";
 
     let age = document.createElement("span");
     age.textContent = "Age";
@@ -122,7 +123,7 @@ function setupResources(colony, container) {
     war.textContent = colony.war ? colony.war : 0;
 
     let livingLevel = document.createElement("span");
-    livingLevel.textContent = colony.money ? colony.money : 0;
+    livingLevel.textContent = colony.livingLevel ? colony.money : 0;
 
     let lifespan = document.createElement("span");
     lifespan.textContent = colony.lifespan ? colony.lifespan : 0;

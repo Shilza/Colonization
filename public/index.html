@@ -3,18 +3,56 @@
 <head>
     <meta charset="utf-8"/>
     <title>Colonization</title>
+
+    <style>
+        #prices {
+            position: absolute;
+            top: 8%;
+            left: 3%;
+            background: antiquewhite;
+            width: 300px;
+            text-align: center;
+            display: none;
+        }
+
+        #prices_names {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+        }
+
+        #prices_data {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+        }
+    </style>
 </head>
 
 <body>
 
-<button>Prices</button>
+<button id="prices_button">Prices</button>
 <button>General statistics</button>
 
+<div id="prices">
+    <span style="color: red">Prices</span>
+    <div id="prices_names">
+        <span>Food</span>
+        <span>Tools</span>
+        <span>Weapons</span>
+    </div>
+    <div id="prices_data">
+        <span id="prices_food">Food</span>
+        <span id="prices_tools">Tools</span>
+        <span id="prices_weapons">Weapons</span>
+    </div>
+</div>
 
 <div id="root">
     <canvas id="mainCanvas" height="768px" width="1366px">
     </canvas>
 </div>
+
 
 <script src="app.js"></script>
 
