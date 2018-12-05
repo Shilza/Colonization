@@ -37,7 +37,7 @@ public class Colony implements Serializable {
     @Column(name = "living_level")
     private int livingLevel;
 
-    private int money;
+    private double money;
 
     private double lifespan;
 
@@ -183,11 +183,11 @@ public class Colony implements Serializable {
         return this;
     }
 
-    public int getMoney() {
+    public double getMoney() {
         return money;
     }
 
-    public Colony setMoney(int money) {
+    public Colony setMoney(double money) {
         this.money = money;
         return this;
     }

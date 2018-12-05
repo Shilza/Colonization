@@ -1,23 +1,13 @@
 package worker.trade;
 
-import model.Colony;
 import model.Entity;
-import repository.ColonyRepository;
-import repository.PriceListRepository;
 
-import java.util.AbstractMap;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static Constants.Type.MILITARY;
 import static Constants.Type.TRADER;
-import static worker.trade.Buyer.buyFood;
-import static worker.trade.Buyer.buyTools;
-import static worker.trade.Buyer.buyWeapon;
-import static worker.trade.Seller.sellFood;
-import static worker.trade.Seller.sellTools;
-import static worker.trade.Seller.sellWeapon;
+import static worker.trade.Buyer.*;
+import static worker.trade.Seller.*;
 
 public class TradeWorker {
 

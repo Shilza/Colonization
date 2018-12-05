@@ -30,7 +30,6 @@ public class EntityWorker {
         return entity.getAddiction().getFoodPerDay() * ageCoefficient(entity, colony);
     }
 
-    //TODO
     private static double ageCoefficient(@NotNull Entity entity, @NotNull Colony colony) {
         double lifespan = colony.getLifespan() / 100.0 * 80.0;
         return entity.getAge() <= lifespan ? 1 : (500 / lifespan / entity.getAddiction().getFoodPerDay() + 1);

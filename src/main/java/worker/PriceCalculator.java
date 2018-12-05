@@ -13,9 +13,12 @@ public class PriceCalculator {
         var prices = repository.findAll().get(0);
         var newPrices =  new PriceList()
                 .setId(1)
-                .setFood(calculateFoodPrice(colonies, prices))
-                .setTools(calculateToolsPrice(colonies, prices))
-                .setWeapon(calculateWeaponPrice());
+                .setFood(1)
+                .setTools(1)
+                .setWeapon(1);
+//                .setFood(calculateFoodPrice(colonies, prices))
+//                .setTools(calculateToolsPrice(colonies, prices))
+//                .setWeapon(calculateWeaponPrice());
 
         repository.update(newPrices);
     }

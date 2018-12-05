@@ -10,7 +10,7 @@ public class Main {
 
             colonies.forEach(ColonyWorker::actions);
 
-            PriceCalculator.calculate(colonies);
+//            PriceCalculator.calculate(colonies);
 
             LifespanCalculator.calculate(colonies);
 
