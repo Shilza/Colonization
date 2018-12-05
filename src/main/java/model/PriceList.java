@@ -1,7 +1,7 @@
 package model;
 
+import javax.persistence.*;
 import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -9,6 +9,19 @@ import java.util.Objects;
 @Entity
 @Table(name = "price_list")
 public class PriceList implements Serializable {
+    public int getId() {
+        return id;
+    }
+
+    public PriceList setId(int id) {
+        this.id = id;
+        return this;
+    }
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
     private double weapon;
     private double tools;
     private double food;

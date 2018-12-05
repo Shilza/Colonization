@@ -1,7 +1,5 @@
 package Constants;
 
-import javax.sound.midi.Track;
-
 public enum Type {
     MILITARY(0, 30), FARMER(1, 20), TRADER(2, 25), ARTISAN(3, 20);
 
@@ -36,5 +34,4 @@ public enum Type {
                 return null;
         }
     }
-
 }

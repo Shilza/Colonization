@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @SuppressWarnings("unused")
 @javax.persistence.Entity
@@ -38,14 +39,9 @@ public class Colony implements Serializable {
 
     private int money;
 
-    private int lifespan;
-
-    @Column(name = "population_count")
-    private int populationCount;
+    private double lifespan;
 
     private int age;
-
-    private int experience;
 
     private int food;
 
@@ -55,10 +51,9 @@ public class Colony implements Serializable {
 
     private String location;
 
-
     private boolean dead;
 
-    @OneToMany(mappedBy = "colony", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "colony", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<model.Entity> entities = new LinkedList<>();
 
     private String color;
@@ -129,7 +124,7 @@ public class Colony implements Serializable {
         return this;
     }
 
-    public Colony setType(Type type){
+    public Colony setType(Type type) {
         this.type = type;
         return this;
     }
@@ -197,21 +192,12 @@ public class Colony implements Serializable {
         return this;
     }
 
-    public int getLifespan() {
+    public double getLifespan() {
         return lifespan;
     }
 
-    public Colony setLifespan(int lifespan) {
+    public Colony setLifespan(double lifespan) {
         this.lifespan = lifespan;
-        return this;
-    }
-
-    public int getPopulationCount() {
-        return populationCount;
-    }
-
-    public Colony setPopulationCount(int populationCount) {
-        this.populationCount = populationCount;
         return this;
     }
 
@@ -221,15 +207,6 @@ public class Colony implements Serializable {
 
     public Colony setAge(int age) {
         this.age = age;
-        return this;
-    }
-
-    public int getExperience() {
-        return experience;
-    }
-
-    public Colony setExperience(int experience) {
-        this.experience = experience;
         return this;
     }
 
@@ -279,9 +256,7 @@ public class Colony implements Serializable {
                 ", livingLevel=" + livingLevel +
                 ", money=" + money +
                 ", lifespan=" + lifespan +
-                ", populationCount=" + populationCount +
                 ", age=" + age +
-                ", experience=" + experience +
                 ", food=" + food +
                 ", weapon=" + weapon +
                 ", tools=" + tools +
@@ -306,9 +281,7 @@ public class Colony implements Serializable {
                 livingLevel == colony.livingLevel &&
                 money == colony.money &&
                 lifespan == colony.lifespan &&
-                populationCount == colony.populationCount &&
                 age == colony.age &&
-                experience == colony.experience &&
                 food == colony.food &&
                 weapon == colony.weapon &&
                 tools == colony.tools &&
@@ -322,7 +295,23 @@ public class Colony implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, type, waterAvailability, woodAvailability, metalAvailability, fertility, war, livingLevel, money, lifespan, populationCount, age, experience, food, weapon, tools, location, color, dead, entities);
+        return Objects.hash(id, name, type, waterAvailability, woodAvailability, metalAvailability, fertility, war, livingLevel, money, lifespan, age, food, weapon, tools, location, color, dead, entities);
     }
 
+    public boolean isAlive() {
+        return !isDead();
+//        return !entities.stream().allMatch(Entity::isDead);
+    }
+
+    public List<Entity> getAliveEntities() {
+        return entities.stream().filter(entity -> !entity.isDead()).collect(Collectors.toList());
+    }
+
+    public int getNeededFoodPerDay() {
+        var result = getAliveEntities().stream()
+                .mapToInt(entity1 -> entity1.getAddiction().getFoodPerDay())
+                .reduce(Integer::sum);
+
+        return result.isPresent() ? result.getAsInt() : 0;
+    }
 }

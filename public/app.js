@@ -191,8 +191,7 @@ function createColony(data) {
     if(data) {
         colonies.push(data);
         drawEmptyColony(location.x, location.y, data.color);
-    }
-    else
+    } else
         alert('Something went wrong');
 }
 

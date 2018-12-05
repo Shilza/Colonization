@@ -2,7 +2,6 @@ package worker;
 
 import Constants.Type;
 import model.Entity;
-import model.Skill;
 import org.jetbrains.annotations.NotNull;
 
 public class SkillsCalculator {
@@ -12,7 +11,7 @@ public class SkillsCalculator {
         this.entity = entity;
     }
 
-    public Integer addMainSkill() {
+    public Double addMainSkill() {
         return changeSkill(entity.getAddiction(), this::mainSkillCalculating);
     }
 
@@ -20,13 +19,13 @@ public class SkillsCalculator {
         changeSkill(entity.getAddiction(), this::subtractMainSkillCalculating);
     }
 
-    public Integer addSkill(Type type) {
+    public Double addSkill(Type type) {
         return changeSkill(type,
                 changed -> {
                     if (entity.getVitality() < 80)
-                        return changed + (int) Math.round(entity.getVitality() / 80.0);
+                        return changed + entity.getVitality() / 80.0;
                     else
-                        return changed + 1;
+                        return changed + 2;
                 });
     }
 
@@ -34,44 +33,43 @@ public class SkillsCalculator {
         changeSkill(type, changed -> changed - 1);
     }
 
-    private Integer changeSkill(@NotNull Type type, Operating operation) {
+    private Double changeSkill(@NotNull Type type, Operating operation) {
         var skill = entity.getSkill();
         switch (type) {
             case MILITARY:
-                return skill.setMilitary(operation.change(skill.getMilitary())).getMilitary();
+                return skill.setMilitary(operation.change(skill.getMilitary())).getMilitary() / 4.0;
             case TRADER:
-                return skill.setTrading(operation.change(skill.getTrading())).getTrading();
+                return skill.setTrading(operation.change(skill.getTrading())).getTrading() / 4.0;
             case ARTISAN:
-                return skill.setCrafting(operation.change(skill.getCrafting())).getCrafting();
+                return skill.setCrafting(operation.change(skill.getCrafting())).getCrafting() / 4.0;
             case FARMER:
-                return skill.setFarming(operation.change(skill.getFarming())).getFarming();
+                return skill.setFarming(operation.change(skill.getFarming())).getFarming() / 4.0;
             default:
                 return null;
         }
     }
 
     private interface Operating {
-        int change(Integer changed);
+        double change(Integer changed);
     }
 
-    private int mainSkillCalculating(Integer changed) {
-        var result = 5 * (Math.random() / 2 + 0.5);
+    private double mainSkillCalculating(Integer changed) {
+        var result = 4 * (Math.random() / 2 + 0.5);
 
         if (entity.getColony().getType() == entity.getAddiction())
             result *= 1.5;
         if (entity.getVitality() < 80)
             result *= entity.getVitality() / 80.0;
 
-        return (int) (changed + Math.round(result)) +
-                entity.getSkillFromType(entity.getAddiction()) / 20;
+        return changed + result;
     }
 
-    private int subtractMainSkillCalculating(Integer changed) {
+    private double subtractMainSkillCalculating(Integer changed) {
         var result = 5 * (Math.random() / 2 + 0.5);
 
         if (entity.getColony().getType() == entity.getAddiction())
             result *= 0.5;
 
-        return changed - (int) Math.round(result);
+        return changed - result;
     }
 }

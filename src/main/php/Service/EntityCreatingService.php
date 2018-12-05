@@ -8,41 +8,19 @@ use Colonization\Model\Entity;
 
 class EntityCreatingService extends Service {
     public static function createEntity(int $colonyId): Entity {
-        $randIndexes = [
+        $indexes = [
             'leadership' => self::generateIndex(),
             'strength' => self::generateIndex(),
             'intelligence' => self::generateIndex(),
-            'militancy' => self::generateIndex()
-        ];
-
-        $indexes = array_merge($randIndexes, [
+            'militancy' => self::generateIndex(),
             'diplomacy' => self::generateIndex(),
             'enterprise' => self::generateIndex()
-        ]);
+        ];
 
         return Entity::create(array_merge($indexes, [
-            'name' => static::generateName(),
             'colony_id' => $colonyId,
             'addiction' => self::generateAddiction($indexes)
         ]));
-    }
-
-
-    private static function generateDiplomacy(array $indexes): int {
-        return
-            (($result =
-                $indexes['leadership'] / 100 * 25
-                + $indexes['strength'] / 100 * 25
-                + $indexes['intelligence'] / 100 * 50
-                - $indexes['militancy'] / 100 * 40) > 0 ? $result : 0);
-    }
-
-    private static function generateEnterprise(array $indexes): int {
-        return
-            $indexes['leadership'] / 100 * 15
-            + $indexes['strength'] / 100 * 30
-            + $indexes['intelligence'] / 100 * 40
-            + $indexes['militancy'] / 100 * 15;
     }
 
 
@@ -97,10 +75,5 @@ class EntityCreatingService extends Service {
             + $indexes['diplomacy'] / 100 * 5
             + $indexes['leadership'] / 100 * 5
             - $indexes['militancy'] / 100 * 25;
-    }
-
-
-    private static function generateName(): string {
-        return mt_rand(100000, 999999);
     }
 }

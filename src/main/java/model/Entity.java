@@ -2,6 +2,7 @@ package model;
 
 
 import Constants.Type;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -14,8 +15,6 @@ public class Entity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
-    private String name;
 
     private int strength;
 
@@ -33,83 +32,52 @@ public class Entity implements Serializable {
 
     private Type addiction;
 
-    private int vitality;
+    @ColumnDefault("100")
+    private int vitality = 100;
 
     private boolean dead;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "colony_id")
     private Colony colony;
 
-    @OneToOne(mappedBy = "entity", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(mappedBy = "entity", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Skill skill;
 
 
-    public Entity() {
-    }
+    public Entity() {}
 
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public int getStrength() {
         return strength;
     }
 
-    public void setStrength(int strength) {
-        this.strength = strength;
-    }
-
     public int getIntelligence() {
         return intelligence;
-    }
-
-    public void setIntelligence(int intelligence) {
-        this.intelligence = intelligence;
     }
 
     public int getMilitancy() {
         return militancy;
     }
 
-    public void setMilitancy(int militancy) {
+    public Entity setMilitancy(int militancy) {
         this.militancy = militancy;
+        return this;
     }
 
     public int getDiplomacy() {
         return diplomacy;
     }
 
-    public void setDiplomacy(int diplomacy) {
-        this.diplomacy = diplomacy;
-    }
-
     public int getAge() {
         return age;
     }
 
-    public void setAge(int age) {
-        this.age = age;
-    }
-
     public int getEnterprise() {
         return enterprise;
-    }
-
-    public void setEnterprise(int enterprise) {
-        this.enterprise = enterprise;
     }
 
     public boolean isDead() {
@@ -127,6 +95,7 @@ public class Entity implements Serializable {
 
     public Entity setVitality(int vitality) {
         this.vitality = vitality >= 100 ? 100 : vitality;
+        this.vitality = vitality <= 0 ? 0 : this.vitality;
         return this;
     }
 
@@ -164,6 +133,7 @@ public class Entity implements Serializable {
 
     public void dead() {
         setDead(true);
+        setVitality(0);
     }
 
 
@@ -206,7 +176,6 @@ public class Entity implements Serializable {
                 enterprise == entity.enterprise &&
                 vitality == entity.vitality &&
                 dead == entity.dead &&
-                Objects.equals(name, entity.name) &&
                 addiction == entity.addiction &&
                 Objects.equals(colony, entity.colony) &&
                 Objects.equals(skill, entity.skill);
@@ -214,14 +183,13 @@ public class Entity implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, strength, intelligence, militancy, diplomacy, leadership, age, enterprise, addiction, vitality, dead, colony, skill);
+        return Objects.hash(id, strength, intelligence, militancy, diplomacy, leadership, age, enterprise, addiction, vitality, dead, colony, skill);
     }
 
     @Override
     public String toString() {
         return "Entity{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
                 ", strength=" + strength +
                 ", intelligence=" + intelligence +
                 ", militancy=" + militancy +
@@ -235,5 +203,30 @@ public class Entity implements Serializable {
                 ", colony=" + colony +
                 ", skill=" + skill +
                 '}';
+    }
+
+    public Entity setStrength(int strength) {
+        this.strength = strength;
+        return this;
+    }
+
+    public Entity setIntelligence(int intelligence) {
+        this.intelligence = intelligence;
+        return this;
+    }
+
+    public Entity setDiplomacy(int diplomacy) {
+        this.diplomacy = diplomacy;
+        return this;
+    }
+
+    public Entity setAge(int age) {
+        this.age = age;
+        return this;
+    }
+
+    public Entity setEnterprise(int enterprise) {
+        this.enterprise = enterprise;
+        return this;
     }
 }

@@ -1,32 +1,37 @@
 package model;
 
 
-import Constants.Type;
+import org.hibernate.annotations.ColumnDefault;
 import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 @SuppressWarnings("unused")
 @javax.persistence.Entity
-@Table(name = "entities")
-public class Skill {
+@Table(name = "skills")
+public class Skill implements Serializable {
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    @OneToOne
     @JoinColumn(name = "entity_id")
     private Entity entity;
 
-    private Integer military;
+    @ColumnDefault("0")
+    private Integer military = 0;
 
-    private Integer trading;
+    @ColumnDefault("0")
+    private Integer trading = 0;
 
-    private Integer farming;
+    @ColumnDefault("0")
+    private Integer farming = 0;
 
-    private Integer crafting;
+    @ColumnDefault("0")
+    private Integer crafting = 0;
 
     public Skill() {}
 
@@ -45,7 +50,12 @@ public class Skill {
 
     public Skill setMilitary(int military) {
         this.military = military >= 100 ? 100 : military;
+        this.military = this.military <= 0 ? 0 : this.military;
         return this;
+    }
+
+    public Skill setMilitary(double military){
+        return setMilitary((int) Math.round(military));
     }
 
     public int getTrading() {
@@ -54,7 +64,12 @@ public class Skill {
 
     public Skill setTrading(int trading) {
         this.trading = trading >= 100 ? 100 : trading;
+        this.trading = this.trading <= 0 ? 0 : this.trading;
         return this;
+    }
+
+    public Skill setTrading(double trading) {
+        return setTrading((int) Math.round(trading));
     }
 
     public int getFarming() {
@@ -62,8 +77,13 @@ public class Skill {
     }
 
     public Skill setFarming(int farming) {
-        this.farming = farming >= 100 ? 100 : trading;
+        this.farming = farming >= 100 ? 100 : farming;
+        this.farming = this.farming <= 0 ? 0 : this.farming;
         return this;
+    }
+
+    public Skill setFarming(double farming){
+        return setFarming((int) Math.round(farming));
     }
 
     public int getCrafting() {
@@ -72,7 +92,12 @@ public class Skill {
 
     public Skill setCrafting(int crafting) {
         this.crafting = crafting >= 100 ? 100 : crafting;
+        this.crafting = this.crafting <= 0 ? 0 : this.crafting;
         return this;
+    }
+
+    public Skill setCrafting(double crafting) {
+        return setCrafting((int)Math.round(crafting));
     }
 
 

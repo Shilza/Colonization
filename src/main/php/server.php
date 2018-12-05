@@ -18,7 +18,6 @@ $server->onConnect = function (TcpConnection $connection) {
 };
 
 $server->onMessage = function (TcpConnection $connection, string $data) {
-    echo $data;
     $arr = json_decode($data, true);
     switch ($arr['type']) {
         case Types::CREATE_COLONY:

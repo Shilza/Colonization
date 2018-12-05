@@ -1,25 +1,28 @@
 import repository.ColonyRepository;
-import repository.EntityRepository;
-import worker.ColonyWorker;
-import worker.PriceCalculator;
+import worker.*;
 
 public class Main {
-    private static EntityRepository entityRepository = new EntityRepository();
     private static ColonyRepository colonyRepository = new ColonyRepository();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException{
         while(true){
-            var colonies = colonyRepository.findAll();
+            var colonies = colonyRepository.findAllAliveColonies();
 
             colonies.forEach(ColonyWorker::actions);
 
+            PriceCalculator.calculate(colonies);
+
+            LifespanCalculator.calculate(colonies);
+
+            LivingLevelCalculator.calculate(colonies);
+
+            colonies.forEach(colony -> colony.setMoney(colony.getMoney() + 2));
+
+            PeopleGenerator.generate(colonies);
+
             colonies.forEach(colonyRepository::update);
 
-            PriceCalculator.calculate(colonies);
+            Thread.sleep(1000);
         }
-    }
-
-    private static int time(){
-        return (int) System.currentTimeMillis() / 1000;
     }
 }

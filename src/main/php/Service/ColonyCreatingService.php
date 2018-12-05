@@ -5,19 +5,27 @@ namespace Colonization\Service;
 
 use Colonization\Constants\Addictions;
 use Colonization\Model\Colony;
+use Colonization\Model\Skill;
+use Illuminate\Database\QueryException;
 
 class ColonyCreatingService extends Service {
 
-    public static function createColony(array $data): Colony {
-        $colony = ColonyCreatingService::createColonyBasic($data);
-        for ($i = 0; $i < 10; $i++)
-            EntityCreatingService::createEntity($colony->id);
+    public static function createColony(array $data): ?Colony {
+        try {
+            $colony = ColonyCreatingService::createColonyBasic($data);
+            for ($i = 0; $i < 10; $i++) {
+                $entity = EntityCreatingService::createEntity($colony->id);
+                Skill::create(['entity_id' => $entity->id]);
+            }
 
-        $colony->lifespan = is_null($lifespan = Colony::avg('lifespan')) ? $lifespan : 50;
-        $colony->type = ColonyCreatingService::generateType($colony);
-        $colony->save();
+            $colony->lifespan = is_null($lifespan = Colony::avg('lifespan')) ? $lifespan : 50;
+            $colony->type = ColonyCreatingService::generateType($colony);
+            $colony->save();
 
-        return $colony;
+            return $colony;
+        } catch (QueryException $exception){
+            return null;
+        }
     }
 
     private static function createColonyBasic(array $data): Colony {

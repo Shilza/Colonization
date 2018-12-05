@@ -2,13 +2,10 @@
 
 namespace Colonization\Model;
 
-use Illuminate\Database\Eloquent\Model;
-
 /**
  * Class Entity
  * @package Model
  * @property int $id
- * @property string $name
  * @property int $strength
  * @property int $leadership
  * @property int $intelligence
@@ -17,10 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $age
  * @property int $enterprise
  */
-class Entity extends Model
-{
-    const UPDATED_AT = null;
-    const CREATED_AT = null;
+class Entity extends NonAuditableModel {
 
     protected $table = 'entities';
 
@@ -31,7 +25,6 @@ class Entity extends Model
         'militancy',
         'diplomacy',
         'enterprise',
-        'name',
         'colony_id',
         'addiction'
     ];

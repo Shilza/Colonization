@@ -27,9 +27,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $tools
  * @property Collection $entities
  */
-class Colony extends Model {
-    const UPDATED_AT = null;
-    const CREATED_AT = null;
+class Colony extends NonAuditableModel {
+
 
     protected $table = 'colonies';
 
