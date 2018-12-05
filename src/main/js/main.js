@@ -16,10 +16,10 @@ function generateColony(pageX, pageY, name) {
 
 function createColony(data) {
     if(data) {
+        data.location = JSON.parse(data.location);
         colonies.push(data);
-        drawEmptyColony(location.x, location.y, data.color);
-    }
-    else
+        drawEmptyColony(data.location.x, data.location.y, data.color);
+    } else
         alert('Something went wrong');
 }
 

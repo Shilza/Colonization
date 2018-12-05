@@ -5,12 +5,7 @@ socket.onopen = function() {
 };
 
 socket.onclose = function(event) {
-    if (event.wasClean) {
-        console.log('Соединение закрыто чисто');
-    } else {
-        console.log('Обрыв соединения');
-    }
-    console.log('Код: ' + event.code + ' причина: ' + event.reason);
+    alert('Code: ' + event.code + '\nReason: ' + event.reason);
 };
 
 socket.onmessage = function(event) {
@@ -27,5 +22,5 @@ socket.onmessage = function(event) {
 };
 
 socket.onerror = function(error) {
-    console.log("Ошибка " + error.message);
+    alert(error.message);
 };

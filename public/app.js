@@ -110,59 +110,134 @@ function createColonyFormInfo(colony) {
 
     let colonyParametersStyle = colonyParameters.style;
     colonyParametersStyle.display = "flex";
-    colonyParametersStyle.width = "500px";
+    colonyParametersStyle.width = "400px";
     colonyParametersStyle.justifyContent = "space-around";
     colonyParametersStyle.flexDirection = "row";
 
     let colonyName = document.createElement("span");
+    colonyName.style.marginBottom = "3%";
+    colonyName.style.color = "red";
     colonyName.textContent = colony.name;
 
+    let nameOfResources = document.createElement("div");
+    setupNameOfResources(nameOfResources);
+
     let resources = document.createElement("div");
-    setupResourcesUI(resources);
+    setupResources(colony, resources);
 
-    let social = document.createElement("div");
-    setupSocialUI(social);
-
-    let complexResources = document.createElement("div");
-    setupComplexResourcesUI(complexResources);
-
-    massAppendChild(colonyParameters, [resources, social, complexResources]);
+    massAppendChild(colonyParameters, [nameOfResources, resources]);
     massAppendChild(formInfo, [colonyName, colonyParameters]);
 
     document.getElementById("root").appendChild(formInfo);
 }
 
-function setupResourcesUI(resources) {
-    let resourcesStyle = resources.style;
+function setupNameOfResources(container) {
+    let resourcesStyle = container.style;
     resourcesStyle.display = "flex";
     resourcesStyle.flexDirection = "column";
 
-    let title = document.createElement("div");
-    title.textContent = "Basic resources";
+    let title = document.createElement("span");
+    title.textContent = "Resource";
 
-    massAppendChild(resources, [title]);
+    let type = document.createElement("span");
+    type.textContent = "Type";
+
+    let water = document.createElement("span");
+    water.textContent = "Water";
+
+    let wood = document.createElement("span");
+    wood.textContent = "Wood";
+
+    let metal = document.createElement("span");
+    metal.textContent = "Metal";
+
+    let fertility = document.createElement("span");
+    fertility.textContent = "Fertility";
+
+    let money = document.createElement("span");
+    money.textContent = "Money";
+
+    let war = document.createElement("span");
+    war.textContent = "War";
+
+    let livingLevel = document.createElement("span");
+    livingLevel.textContent = "Living level";
+
+    let lifespan = document.createElement("span");
+    lifespan.textContent = "Living level";
+
+    let age = document.createElement("span");
+    age.textContent = "Age";
+
+    let food = document.createElement("span");
+    food.textContent = "Food";
+
+    let weapon = document.createElement("span");
+    weapon.textContent = "Weapon";
+
+    let tools = document.createElement("span");
+    tools.textContent = "Tools";
+
+    massAppendChild(container, [
+        title, type, water, wood, metal,
+        fertility, livingLevel, money, lifespan,
+        age, food, weapon, tools
+    ]);
 }
 
-function setupSocialUI(social) {
-    let socialStyle = social.style;
-    socialStyle.display = "flex";
-    socialStyle.flexDirection = "column";
+function setupResources(colony, container) {
 
-    let title = document.createElement("div");
-    title.textContent = "Social";
+    let resourcesStyle = container.style;
+    resourcesStyle.display = "flex";
+    resourcesStyle.flexDirection = "column";
 
-    massAppendChild(social, [title]);
-}
+    let title = document.createElement("span");
+    title.textContent = "Data";
 
-function setupComplexResourcesUI(complexResources) {
-    let complexResourcesStyle = complexResources.style;
-    complexResourcesStyle.display = "flex";
-    complexResourcesStyle.flexDirection = "column";
+    let type = document.createElement("span");
+    type.textContent = colony.type;
 
-    let title = document.createElement("div");
-    title.textContent = "Complex resources";
+    let water = document.createElement("span");
+    water.textContent = colony.water_availability;
 
-    massAppendChild(complexResources, [title]);
+    let wood = document.createElement("span");
+    wood.textContent = colony.wood_availability;
+
+    let metal = document.createElement("span");
+    metal.textContent = colony.metal_availability;
+
+    let fertility = document.createElement("span");
+    fertility.textContent = colony.fertility;
+
+    let money = document.createElement("span");
+    money.textContent = colony.money ? colony.money : 0;
+
+    let war = document.createElement("span");
+    war.textContent = colony.war ? colony.war : 0;
+
+    let livingLevel = document.createElement("span");
+    livingLevel.textContent = colony.money ? colony.money : 0;
+
+    let lifespan = document.createElement("span");
+    lifespan.textContent = colony.lifespan ? colony.lifespan : 0;
+
+    let age = document.createElement("span");
+    age.textContent = colony.age ? colony.age : 0;
+
+    let food = document.createElement("span");
+    food.textContent = colony.food ? colony.food : 0;
+
+    let weapon = document.createElement("span");
+    weapon.textContent = colony.weapon ? colony.weapon : 0;
+
+    let tools = document.createElement("span");
+    tools.textContent = colony.tools ? colony.tools : 0;
+
+    massAppendChild(container, [
+        title, type, water, wood, metal,
+        fertility, livingLevel, money, lifespan,
+        age, food, weapon, tools
+    ]);
 }
 
 function closeAllInfoForms() {
@@ -189,8 +264,9 @@ function generateColony(pageX, pageY, name) {
 
 function createColony(data) {
     if(data) {
+        data.location = JSON.parse(data.location);
         colonies.push(data);
-        drawEmptyColony(location.x, location.y, data.color);
+        drawEmptyColony(data.location.x, data.location.y, data.color);
     } else
         alert('Something went wrong');
 }
@@ -238,12 +314,7 @@ socket.onopen = function() {
 };
 
 socket.onclose = function(event) {
-    if (event.wasClean) {
-        console.log('Соединение закрыто чисто');
-    } else {
-        console.log('Обрыв соединения');
-    }
-    console.log('Код: ' + event.code + ' причина: ' + event.reason);
+    alert('Code: ' + event.code + '\nReason: ' + event.reason);
 };
 
 socket.onmessage = function(event) {
@@ -260,5 +331,5 @@ socket.onmessage = function(event) {
 };
 
 socket.onerror = function(error) {
-    console.log("Ошибка " + error.message);
+    alert(error.message);
 };
